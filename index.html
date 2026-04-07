@@ -2,24 +2,19 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Login | Sewa Alat Wedding</title>
 
-    <!-- Favicon / Icon wedding seperti gambar -->
-    <link rel="icon" type="image/png" sizes="128x128" 
-          href="https://cdn-icons-png.flaticon.com/512/1041/1041916.png">
+    <link rel="icon" type="image/png" sizes="128x128"
+        href="https://cdn-icons-png.flaticon.com/512/1041/1041916.png">
 
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Bootstrap Icons untuk mata (eye) -->
+    <!-- ICON MATA -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
-    <!-- SweetAlert2 untuk notifikasi -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
-        /* TAMPILAN SAMA PERSIS DENGAN GAMBAR ANDA */
         body {
             background: url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop') no-repeat center center fixed;
             background-size: cover;
@@ -28,19 +23,14 @@
             justify-content: center;
             align-items: center;
             font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 20px;
         }
 
-        /* Card login persis seperti desain gambar */
         .login-card {
             width: 380px;
             border-radius: 15px;
             background: linear-gradient(160deg, #b0b9ff, #e7eafc);
             color: #1e293b;
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
-            padding: 1.5rem;
-            text-align: center;
         }
 
         .btn-login {
@@ -48,319 +38,248 @@
             color: white;
             font-weight: 600;
             border-radius: 8px;
-            border: none;
-            padding: 8px 0;
-            width: 100%;
-            transition: 0.2s;
         }
 
         .btn-login:hover {
             opacity: 0.9;
-            transform: scale(1.01);
-        }
-
-        .form-label {
-            font-weight: 500;
-            text-align: left;
-            display: block;
-        }
-
-        .input-group-text {
-            cursor: pointer;
-            background-color: #fff;
-            border-left: none;
-        }
-
-        a {
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        /* Membuat gambar logo bulat seperti di gambar */
-        .logo-wedding {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 50%;
-            display: block;
-            margin: 0 auto 12px auto;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
     </style>
 </head>
 <body>
 
-<div class="card login-card">
-    <!-- Logo gambar wedding (sama seperti icon gambar anda) -->
-    <img src="https://cdn-icons-png.flaticon.com/512/2948/2948033.png" 
-         alt="Wedding Logo" 
-         class="logo-wedding">
+    <div class="card login-card p-4 text-center">
 
-    <!-- Judul persis seperti gambar: Selamat Datang Di Aplikasi Sewa Alat Wedding -->
-    <h4 class="fw-bold mb-1">Selamat Datang Di Aplikasi</h4>
-    <h4 class="fw-bold mb-1">Sewa Alat Wedding</h4>
-    <p class="text-muted small mb-3">Silakan login terlebih dahulu</p>
+        <img src="https://cdn-icons-png.flaticon.com/512/2948/2948033.png"
+            class="mx-auto mb-3" width="80" style="border-radius: 50%;">
 
-    <!-- Form login dengan validasi frontend & simulasi database demo (sesuai role admin/petugas/peminjam) -->
-    <form id="loginForm">
-        <div class="mb-3 text-start">
-            <label class="form-label">Email</label>
-            <input type="email" id="emailInput" name="email" class="form-control" 
-                   placeholder="contoh: shintaaa@gmail.com" required autocomplete="email">
-        </div>
+        <h4 class="fw-bold mb-1">Selamat Datang Di Aplikasi</h4>
+        <h4 class="fw-bold mb-1">Sewa Alat Wedding</h4>
+        <p class="text-muted">Silakan login terlebih dahulu</p>
 
-        <!-- Password + icon mata (toggle visibility) -->
-        <div class="mb-3 text-start">
-            <label class="form-label">Password</label>
-            <div class="input-group">
-                <input type="password" name="password" id="passwordInput" class="form-control" required>
-                <span class="input-group-text" onclick="togglePassword()" style="cursor:pointer;">
-                    <i class="bi bi-eye" id="toggleIcon"></i>
-                </span>
+        <form method="POST" id="loginForm">
+
+            <div class="mb-3 text-start">
+                <label class="form-label">Email</label>
+                <input type="email" name="email" id="email" class="form-control"
+                    value="shintaaa@gmail.com" required>
             </div>
-        </div>
 
-        <button type="submit" class="btn btn-login">Login</button>
+            <!-- PASSWORD + ICON MATA -->
+            <div class="mb-3 text-start">
+                <label class="form-label">Password</label>
 
-        <div class="text-center mt-3">
-            <p class="mb-0 fw-bold">Belum punya akun?</p>
-            <a href="#" class="text-primary fw-bold" id="registerBtn">Buat Sekarang</a>
-        </div>
-    </form>
+                <div class="input-group">
+                    <input type="password" name="password" id="password" class="form-control" required>
 
-    <!-- info demo akun (tambahan kecil agar user tahu akun demo, tidak mengubah tampilan utama) -->
-    <div class="mt-3 pt-2 border-top">
-        <small class="text-muted" style="font-size: 0.65rem;">
-            Demo: admin@wedding.com / admin123 &nbsp;|&nbsp; peminjam@wedding.com / user123
-        </small>
+                    <span class="input-group-text" onclick="togglePassword()" style="cursor:pointer;">
+                        <i class="bi bi-eye" id="toggleIcon"></i>
+                    </span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-login w-100">Login</button>
+
+            <div class="text-center mt-3">
+                <p class="mb-0 fw-bold">Belum punya akun?</p>
+                <a class="text-primary fw-bold" href="#" id="registerBtn">Buat Sekarang</a>
+            </div>
+
+        </form>
+
     </div>
-</div>
 
-<script>
-    // Fungsi toggle password (mata)
-    function togglePassword() {
-        const passwordField = document.getElementById('passwordInput');
-        const icon = document.getElementById('toggleIcon');
-        if (passwordField.type === 'password') {
-            passwordField.type = 'text';
-            icon.classList.remove('bi-eye');
-            icon.classList.add('bi-eye-slash');
-        } else {
-            passwordField.type = 'password';
-            icon.classList.remove('bi-eye-slash');
-            icon.classList.add('bi-eye');
-        }
-    }
+    <script>
+        // Data user (untuk simulasi login)
+        const users = [
+            { email: "shintaaa@gmail.com", password: "shinta123", nama: "Shinta Aulia", role: "peminjam", id_user: 1 },
+            { email: "admin@wedding.com", password: "admin123", nama: "Admin Wedding", role: "admin", id_user: 2 },
+            { email: "petugas@wedding.com", password: "petugas123", nama: "Petugas", role: "petugas", id_user: 3 },
+            { email: "peminjam@wedding.com", password: "user123", nama: "Peminjam", role: "peminjam", id_user: 4 }
+        ];
 
-    // Database user simulasi (sama persis seperti logika asli: admin, petugas, peminjam)
-    const DEMO_USERS = [
-        { id_user: 1, email: "admin@wedding.com", password: "admin123", nama: "Admin Wedding", role: "admin" },
-        { id_user: 2, email: "petugas@wedding.com", password: "petugas123", nama: "Petugas Lapangan", role: "petugas" },
-        { id_user: 3, email: "peminjam@wedding.com", password: "user123", nama: "Budi Peminjam", role: "peminjam" },
-        { id_user: 4, email: "shintaaa@gmail.com", password: "shinta123", nama: "Shinta Aulia", role: "peminjam" }
-    ];
+        // Toggle password visibility
+        function togglePassword() {
+            var password = document.getElementById("password");
+            var icon = document.getElementById("toggleIcon");
 
-    // Event submit login
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const email = document.getElementById('emailInput').value.trim();
-        const password = document.getElementById('passwordInput').value.trim();
-
-        // Validasi tidak boleh kosong (sama seperti error "Email dan password wajib diisi!")
-        if (email === '' || password === '') {
-            Swal.fire({
-                icon: 'error',
-                title: 'Login Gagal',
-                text: 'Email dan password wajib diisi!',
-                confirmButtonColor: '#2563eb'
-            });
-            return;
-        }
-
-        // Cari user berdasarkan email
-        const foundUser = DEMO_USERS.find(user => user.email.toLowerCase() === email.toLowerCase());
-
-        // Jika email tidak ditemukan
-        if (!foundUser) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Login Gagal',
-                text: 'Email Salah / Belum Terdaftar',
-                confirmButtonColor: '#2563eb'
-            }).then(() => {
-                document.getElementById('passwordInput').value = '';
-            });
-            return;
-        }
-
-        // Jika password salah
-        if (password !== foundUser.password) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Login Gagal',
-                text: 'Password Salah',
-                confirmButtonColor: '#2563eb'
-            }).then(() => {
-                document.getElementById('passwordInput').value = '';
-            });
-            return;
-        }
-
-        // --- LOGIN BERHASIL ---
-        // Simpan session di sessionStorage (seperti session PHP)
-        const userSession = {
-            login: true,
-            id_user: foundUser.id_user,
-            email: foundUser.email,
-            nama: foundUser.nama,
-            role: foundUser.role
-        };
-        sessionStorage.setItem('wedding_user_session', JSON.stringify(userSession));
-
-        // Tentukan pesan sukses dan redirect berdasarkan role
-        let successMessage = "";
-        let redirectUrl = "";
-
-        switch (foundUser.role.toLowerCase()) {
-            case 'admin':
-                successMessage = "Berhasil login sebagai Admin!";
-                redirectUrl = "../../pages/dashboard/index.html";
-                break;
-            case 'petugas':
-                successMessage = "Berhasil login sebagai Petugas!";
-                redirectUrl = "../../pages/persetujuan_peminjaman/index.html";
-                break;
-            case 'peminjam':
-                successMessage = "Berhasil login sebagai Peminjam!";
-                redirectUrl = "../../pages/melihat_daftar_alat/index.html";
-                break;
-            default:
-                successMessage = "Login berhasil!";
-                redirectUrl = "../../pages/index.html";
-        }
-
-        // Tampilkan sweetalert sukses lalu redirect (simulasi)
-        Swal.fire({
-            icon: 'success',
-            title: 'Login Berhasil',
-            text: successMessage,
-            confirmButtonColor: '#2563eb',
-            timer: 1500,
-            showConfirmButton: true
-        }).then(() => {
-            // Karena dalam file html statis, halaman tujuan mungkin tidak ada, tapi kita arahkan ke dashboard simulasi
-            // Agar tidak error, kita redirect ke halaman yang sama dengan parameter role (untuk menampilkan dashboard sederhana)
-            window.location.href = `?role=${foundUser.role}&nama=${encodeURIComponent(foundUser.nama)}`;
-        });
-    });
-
-    // Tombol "Buat Sekarang" (register) - menampilkan info pendaftaran
-    document.getElementById('registerBtn').addEventListener('click', function(e) {
-        e.preventDefault();
-        Swal.fire({
-            title: 'Buat Akun Baru',
-            html: `
-                <div style="text-align:left">
-                    <p>Silakan hubungi admin atau gunakan akun demo berikut:</p>
-                    <hr>
-                    <strong>📧 Admin:</strong> admin@wedding.com / admin123<br>
-                    <strong>📧 Petugas:</strong> petugas@wedding.com / petugas123<br>
-                    <strong>📧 Peminjam:</strong> peminjam@wedding.com / user123<br>
-                    <strong>📧 Contoh lain:</strong> shintaaa@gmail.com / shinta123
-                </div>
-            `,
-            icon: 'info',
-            confirmButtonText: 'Mengerti',
-            confirmButtonColor: '#2563eb'
-        });
-    });
-
-    // Fitur tambahan: jika sudah login dan ada parameter role, tampilkan dashboard sederhana (agar pengalaman mirip aplikasi asli)
-    const urlParams = new URLSearchParams(window.location.search);
-    const roleParam = urlParams.get('role');
-    const namaParam = urlParams.get('nama');
-
-    if (roleParam && (roleParam === 'admin' || roleParam === 'petugas' || roleParam === 'peminjam')) {
-        const loginCard = document.querySelector('.login-card');
-        if (loginCard && !document.getElementById('dashboardArea')) {
-            // Simulasi dashboard sesuai role (tanpa mengubah tampilan asli, hanya mengganti konten card)
-            let roleMessage = '';
-            let actionList = '';
-            if (roleParam === 'admin') {
-                roleMessage = 'Dashboard Admin';
-                actionList = '<li>📊 Kelola Data User</li><li>📦 Kelola Alat Wedding</li><li>📝 Laporan Transaksi</li>';
-            } else if (roleParam === 'petugas') {
-                roleMessage = 'Persetujuan Peminjaman';
-                actionList = '<li>✅ Verifikasi Peminjaman</li><li>📋 Update Status Alat</li><li>📅 Jadwal Pengembalian</li>';
-            } else if (roleParam === 'peminjam') {
-                roleMessage = 'Daftar Alat Wedding';
-                actionList = '<li>🔍 Lihat Katalog Alat</li><li>📝 Ajukan Peminjaman</li><li>📌 Riwayat Sewa</li>';
+            if (password.type === "password") {
+                password.type = "text";
+                icon.classList.remove("bi-eye");
+                icon.classList.add("bi-eye-slash");
+            } else {
+                password.type = "password";
+                icon.classList.remove("bi-eye-slash");
+                icon.classList.add("bi-eye");
             }
+        }
+
+        // Handle login form submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            // Validasi tidak boleh kosong
+            if (email === '' || password === '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Login Gagal',
+                    text: 'Email dan password wajib diisi!',
+                    confirmButtonColor: '#2563eb'
+                });
+                return;
+            }
+
+            // Cari user berdasarkan email
+            const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+
+            if (!user) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Login Gagal',
+                    text: 'Email Salah/Belum Terdaftar',
+                    confirmButtonColor: '#2563eb'
+                });
+                return;
+            }
+
+            // Cek password
+            if (password !== user.password) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Login Gagal',
+                    text: 'Password Salah',
+                    confirmButtonColor: '#2563eb'
+                });
+                return;
+            }
+
+            // Login berhasil - simpan session
+            sessionStorage.setItem('user_session', JSON.stringify({
+                login: true,
+                id_user: user.id_user,
+                email: user.email,
+                nama: user.nama,
+                role: user.role
+            }));
+
+            // Tampilkan pesan sukses dan redirect sesuai role
+            let successMessage = "";
+
+            switch (user.role) {
+                case 'admin':
+                    successMessage = "Berhasil login sebagai Admin!";
+                    break;
+                case 'petugas':
+                    successMessage = "Berhasil login sebagai Petugas!";
+                    break;
+                case 'peminjam':
+                    successMessage = "Berhasil login sebagai Peminjam!";
+                    break;
+                default:
+                    successMessage = "Login berhasil!";
+            }
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Login Berhasil',
+                text: successMessage,
+                confirmButtonColor: '#2563eb',
+                timer: 1500,
+                showConfirmButton: true
+            }).then(() => {
+                // Simulasi redirect - tampilkan dashboard di halaman yang sama
+                showDashboard(user);
+            });
+        });
+
+        // Fungsi untuk menampilkan dashboard (simulasi halaman setelah login)
+        function showDashboard(user) {
+            const card = document.querySelector('.login-card');
             
-            const dashboardHtml = `
-                <div id="dashboardArea" style="text-align:center;">
-                    <i class="bi bi-check-circle-fill text-success" style="font-size: 3rem;"></i>
-                    <h3 class="mt-2 fw-bold">✨ ${roleMessage} ✨</h3>
-                    <p class="lead">Selamat datang, <strong>${decodeURIComponent(namaParam || 'User')}</strong>!</p>
-                    <div class="alert alert-light shadow-sm mt-3">
-                        <i class="bi bi-person-badge me-2"></i> Login sebagai: 
-                        <span class="badge bg-primary fs-6">${roleParam.toUpperCase()}</span>
-                    </div>
-                    <div class="mt-3 text-start">
-                        <ul class="list-unstyled">
-                            ${actionList}
+            let dashboardContent = '';
+            
+            if (user.role === 'admin') {
+                dashboardContent = `
+                    <div style="text-align: center;">
+                        <i class="bi bi-person-badge" style="font-size: 48px; color: #2563eb;"></i>
+                        <h3 class="fw-bold mt-2">Dashboard Admin</h3>
+                        <p class="text-muted">Selamat datang, ${user.nama}!</p>
+                        <hr>
+                        <ul class="text-start">
+                            <li>📊 Kelola Data User</li>
+                            <li>📦 Kelola Alat Wedding</li>
+                            <li>📝 Laporan Transaksi</li>
+                            <li>⚙️ Pengaturan Sistem</li>
                         </ul>
+                        <button onclick="logout()" class="btn btn-danger w-100 mt-3">Logout</button>
                     </div>
-                    <hr>
-                    <button id="logoutBtnDashboard" class="btn btn-outline-danger w-100 mt-2 rounded-pill">
-                        <i class="bi bi-box-arrow-left me-1"></i> Logout
-                    </button>
-                    <button id="backToLoginBtn" class="btn btn-outline-secondary w-100 mt-2 rounded-pill">
-                        <i class="bi bi-arrow-left"></i> Kembali ke Halaman Login
-                    </button>
-                </div>
-            `;
-            loginCard.innerHTML = dashboardHtml;
+                `;
+            } else if (user.role === 'petugas') {
+                dashboardContent = `
+                    <div style="text-align: center;">
+                        <i class="bi bi-clipboard-check" style="font-size: 48px; color: #2563eb;"></i>
+                        <h3 class="fw-bold mt-2">Dashboard Petugas</h3>
+                        <p class="text-muted">Selamat datang, ${user.nama}!</p>
+                        <hr>
+                        <ul class="text-start">
+                            <li>✅ Verifikasi Peminjaman</li>
+                            <li>📋 Update Status Alat</li>
+                            <li>📅 Jadwal Pengembalian</li>
+                            <li>📊 Monitoring Peminjaman</li>
+                        </ul>
+                        <button onclick="logout()" class="btn btn-danger w-100 mt-3">Logout</button>
+                    </div>
+                `;
+            } else {
+                dashboardContent = `
+                    <div style="text-align: center;">
+                        <i class="bi bi-box-seam" style="font-size: 48px; color: #2563eb;"></i>
+                        <h3 class="fw-bold mt-2">Daftar Alat Wedding</h3>
+                        <p class="text-muted">Selamat datang, ${user.nama}!</p>
+                        <hr>
+                        <ul class="text-start">
+                            <li>🔍 Lihat Katalog Alat</li>
+                            <li>📝 Ajukan Peminjaman</li>
+                            <li>📌 Riwayat Sewa</li>
+                            <li>💳 Pembayaran</li>
+                        </ul>
+                        <button onclick="logout()" class="btn btn-danger w-100 mt-3">Logout</button>
+                    </div>
+                `;
+            }
             
-            // Event logout hapus sessionStorage & kembali ke login
-            const logoutBtn = document.getElementById('logoutBtnDashboard');
-            const backBtn = document.getElementById('backToLoginBtn');
-            if (logoutBtn) {
-                logoutBtn.addEventListener('click', () => {
-                    sessionStorage.removeItem('wedding_user_session');
-                    window.location.href = window.location.pathname;
-                });
-            }
-            if (backBtn) {
-                backBtn.addEventListener('click', () => {
-                    sessionStorage.removeItem('wedding_user_session');
-                    window.location.href = window.location.pathname;
-                });
+            card.innerHTML = dashboardContent;
+        }
+
+        // Fungsi logout
+        function logout() {
+            sessionStorage.removeItem('user_session');
+            location.reload();
+        }
+
+        // Cek apakah sudah login sebelumnya
+        const savedSession = sessionStorage.getItem('user_session');
+        if (savedSession) {
+            const user = JSON.parse(savedSession);
+            if (user.login) {
+                showDashboard(user);
             }
         }
-    }
 
-    // Cek jika user sudah login sebelumnya dan mengakses halaman login, redirect otomatis ke dashboard
-    (function checkExistingSession() {
-        const existingSession = sessionStorage.getItem('wedding_user_session');
-        if (existingSession && !window.location.search.includes('role')) {
-            try {
-                const userData = JSON.parse(existingSession);
-                if (userData && userData.login === true) {
-                    // Redirect ke dashboard dengan parameter role
-                    window.location.href = `?role=${userData.role}&nama=${encodeURIComponent(userData.nama)}`;
-                }
-            } catch(e) {}
-        }
-    })();
-</script>
+        // Tombol register
+        document.getElementById('registerBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Buat Akun Baru',
+                text: 'Silakan hubungi administrator untuk membuat akun baru.',
+                icon: 'info',
+                confirmButtonText: 'Mengerti',
+                confirmButtonColor: '#2563eb'
+            });
+        });
+    </script>
 
-<!-- Bootstrap JS (optional untuk beberapa interaksi) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
