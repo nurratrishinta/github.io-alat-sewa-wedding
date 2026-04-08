@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <title>Login | Sewa Alat Wedding</title>
 
+    <!-- GANTI DENGAN PATH FOTO ANDA SENDIRI -->
     <link rel="icon" type="image/png" sizes="128x128"
-        href="https://cdn-icons-png.flaticon.com/512/1041/1041916.png">
+        href="../../templates-admin/material-dashboard-2/assets/img/1setwedding.webp">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -16,13 +18,16 @@
 
     <style>
         body {
-            background: url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop') no-repeat center center fixed;
+            /* GANTI DENGAN PATH FOTO BACKGROUND ANDA SENDIRI */
+            background: url('../../templates-admin/material-dashboard-2/assets/img/1setwedding.webp') no-repeat center center fixed;
             background-size: cover;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 20px;
         }
 
         .login-card {
@@ -38,22 +43,30 @@
             color: white;
             font-weight: 600;
             border-radius: 8px;
+            border: none;
+            transition: 0.2s;
         }
 
         .btn-login:hover {
             opacity: 0.9;
+            transform: scale(1.01);
+        }
+
+        .input-group-text {
+            cursor: pointer;
         }
     </style>
 </head>
+
 <body>
 
     <div class="card login-card p-4 text-center">
 
-        <img src="https://cdn-icons-png.flaticon.com/512/2948/2948033.png"
-            class="mx-auto mb-3" width="80" style="border-radius: 50%;">
+        <!-- GANTI DENGAN PATH LOGO/FOTO ANDA SENDIRI -->
+        <img src="../../templates-admin/material-dashboard-2/assets/img/1setwedding.webp"
+            class="mx-auto mb-3" width="80" style="border-radius: 10px;">
 
-        <h4 class="fw-bold mb-1">Selamat Datang Di Aplikasi</h4>
-        <h4 class="fw-bold mb-1">Sewa Alat Wedding</h4>
+        <h4 class="fw-bold mb-1">Selamat Datang Di Aplikasi Sewa Alat Wedding</h4>
         <p class="text-muted">Silakan login terlebih dahulu</p>
 
         <form method="POST" id="loginForm">
@@ -61,7 +74,7 @@
             <div class="mb-3 text-start">
                 <label class="form-label">Email</label>
                 <input type="email" name="email" id="email" class="form-control"
-                    value="shintaaa@gmail.com" required>
+                    value="" required>
             </div>
 
             <!-- PASSWORD + ICON MATA -->
@@ -89,10 +102,14 @@
     </div>
 
     <script>
-        // Data user (untuk simulasi login)
-       
+        // Data user untuk simulasi login (sesuai dengan database Anda nantinya)
+        const users = [
+            { email: "admin@wedding.com", password: "admin123", nama: "Admin Wedding", role: "admin", id_user: 1 },
+            { email: "petugas@wedding.com", password: "petugas123", nama: "Petugas", role: "petugas", id_user: 2 },
+            { email: "peminjam@wedding.com", password: "user123", nama: "Peminjam", role: "peminjam", id_user: 3 }
+        ];
 
-        // Toggle password visibility
+        // Toggle password visibility (fungsi mata)
         function togglePassword() {
             var password = document.getElementById("password");
             var icon = document.getElementById("toggleIcon");
@@ -108,7 +125,7 @@
             }
         }
 
-        // Handle login form submission
+        // Handle form login
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -150,30 +167,26 @@
                 return;
             }
 
-            // Login berhasil - simpan session
-            sessionStorage.setItem('user_session', JSON.stringify({
-                login: true,
-                id_user: user.id_user,
-                email: user.email,
-                nama: user.nama,
-                role: user.role
-            }));
-
-            // Tampilkan pesan sukses dan redirect sesuai role
+            // Login berhasil
             let successMessage = "";
+            let redirectUrl = "";
 
             switch (user.role) {
                 case 'admin':
                     successMessage = "Berhasil login sebagai Admin!";
+                    redirectUrl = "../../pages/dashboard/index.php";
                     break;
                 case 'petugas':
                     successMessage = "Berhasil login sebagai Petugas!";
+                    redirectUrl = "../../pages/persetujuan_peminjaman/index.php";
                     break;
                 case 'peminjam':
                     successMessage = "Berhasil login sebagai Peminjam!";
+                    redirectUrl = "../../pages/melihat_daftar_alat/index.php";
                     break;
                 default:
                     successMessage = "Login berhasil!";
+                    redirectUrl = "../../pages/index.php";
             }
 
             Swal.fire({
@@ -184,83 +197,86 @@
                 timer: 1500,
                 showConfirmButton: true
             }).then(() => {
-                // Simulasi redirect - tampilkan dashboard di halaman yang sama
+                // Simpan session ke localStorage/sessionStorage
+                sessionStorage.setItem('user_login', JSON.stringify({
+                    login: true,
+                    id_user: user.id_user,
+                    email: user.email,
+                    nama: user.nama,
+                    role: user.role
+                }));
+                
+                // Redirect ke halaman sesuai role
+                // window.location.href = redirectUrl;
+                
+                // Untuk demo, tampilkan dashboard di halaman yang sama
                 showDashboard(user);
             });
         });
 
-        // Fungsi untuk menampilkan dashboard (simulasi halaman setelah login)
+        // Fungsi show dashboard (opsional untuk demo)
         function showDashboard(user) {
             const card = document.querySelector('.login-card');
             
-            let dashboardContent = '';
+            let dashboardHtml = '';
             
             if (user.role === 'admin') {
-                dashboardContent = `
+                dashboardHtml = `
                     <div style="text-align: center;">
-                        <i class="bi bi-person-badge" style="font-size: 48px; color: #2563eb;"></i>
+                        <i class="bi bi-shield-lock-fill" style="font-size: 50px; color: #2563eb;"></i>
                         <h3 class="fw-bold mt-2">Dashboard Admin</h3>
                         <p class="text-muted">Selamat datang, ${user.nama}!</p>
                         <hr>
-                        <ul class="text-start">
-                            <li>📊 Kelola Data User</li>
-                            <li>📦 Kelola Alat Wedding</li>
-                            <li>📝 Laporan Transaksi</li>
-                            <li>⚙️ Pengaturan Sistem</li>
-                        </ul>
+                        <div class="text-start">
+                            <p><i class="bi bi-check-circle-fill text-success me-2"></i> Kelola Data User</p>
+                            <p><i class="bi bi-check-circle-fill text-success me-2"></i> Kelola Alat Wedding</p>
+                            <p><i class="bi bi-check-circle-fill text-success me-2"></i> Laporan Transaksi</p>
+                            <p><i class="bi bi-check-circle-fill text-success me-2"></i> Pengaturan Sistem</p>
+                        </div>
                         <button onclick="logout()" class="btn btn-danger w-100 mt-3">Logout</button>
                     </div>
                 `;
             } else if (user.role === 'petugas') {
-                dashboardContent = `
+                dashboardHtml = `
                     <div style="text-align: center;">
-                        <i class="bi bi-clipboard-check" style="font-size: 48px; color: #2563eb;"></i>
+                        <i class="bi bi-person-badge-fill" style="font-size: 50px; color: #2563eb;"></i>
                         <h3 class="fw-bold mt-2">Dashboard Petugas</h3>
                         <p class="text-muted">Selamat datang, ${user.nama}!</p>
                         <hr>
-                        <ul class="text-start">
-                            <li>✅ Verifikasi Peminjaman</li>
-                            <li>📋 Update Status Alat</li>
-                            <li>📅 Jadwal Pengembalian</li>
-                            <li>📊 Monitoring Peminjaman</li>
-                        </ul>
+                        <div class="text-start">
+                            <p><i class="bi bi-check-circle-fill text-success me-2"></i> Verifikasi Peminjaman</p>
+                            <p><i class="bi bi-check-circle-fill text-success me-2"></i> Update Status Alat</p>
+                            <p><i class="bi bi-check-circle-fill text-success me-2"></i> Jadwal Pengembalian</p>
+                            <p><i class="bi bi-check-circle-fill text-success me-2"></i> Monitoring Peminjaman</p>
+                        </div>
                         <button onclick="logout()" class="btn btn-danger w-100 mt-3">Logout</button>
                     </div>
                 `;
             } else {
-                dashboardContent = `
+                dashboardHtml = `
                     <div style="text-align: center;">
-                        <i class="bi bi-box-seam" style="font-size: 48px; color: #2563eb;"></i>
+                        <i class="bi bi-box-seam-fill" style="font-size: 50px; color: #2563eb;"></i>
                         <h3 class="fw-bold mt-2">Daftar Alat Wedding</h3>
                         <p class="text-muted">Selamat datang, ${user.nama}!</p>
                         <hr>
-                        <ul class="text-start">
-                            <li>🔍 Lihat Katalog Alat</li>
-                            <li>📝 Ajukan Peminjaman</li>
-                            <li>📌 Riwayat Sewa</li>
-                            <li>💳 Pembayaran</li>
-                        </ul>
+                        <div class="text-start">
+                            <p><i class="bi bi-check-circle-fill text-success me-2"></i> Lihat Katalog Alat</p>
+                            <p><i class="bi bi-check-circle-fill text-success me-2"></i> Ajukan Peminjaman</p>
+                            <p><i class="bi bi-check-circle-fill text-success me-2"></i> Riwayat Sewa</p>
+                            <p><i class="bi bi-check-circle-fill text-success me-2"></i> Pembayaran</p>
+                        </div>
                         <button onclick="logout()" class="btn btn-danger w-100 mt-3">Logout</button>
                     </div>
                 `;
             }
             
-            card.innerHTML = dashboardContent;
+            card.innerHTML = dashboardHtml;
         }
 
         // Fungsi logout
         function logout() {
-            sessionStorage.removeItem('user_session');
+            sessionStorage.removeItem('user_login');
             location.reload();
-        }
-
-        // Cek apakah sudah login sebelumnya
-        const savedSession = sessionStorage.getItem('user_session');
-        if (savedSession) {
-            const user = JSON.parse(savedSession);
-            if (user.login) {
-                showDashboard(user);
-            }
         }
 
         // Tombol register
@@ -268,13 +284,23 @@
             e.preventDefault();
             Swal.fire({
                 title: 'Buat Akun Baru',
-                text: 'Silakan hubungi administrator untuk membuat akun baru.',
+                text: 'Silakan hubungi administrator untuk mendaftar akun baru.',
                 icon: 'info',
                 confirmButtonText: 'Mengerti',
                 confirmButtonColor: '#2563eb'
             });
         });
+
+        // Cek apakah sudah login sebelumnya
+        const savedSession = sessionStorage.getItem('user_login');
+        if (savedSession) {
+            const user = JSON.parse(savedSession);
+            if (user.login) {
+                showDashboard(user);
+            }
+        }
     </script>
 
 </body>
+
 </html>
