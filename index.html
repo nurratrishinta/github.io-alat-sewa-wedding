@@ -5,10 +5,9 @@
     <meta charset="UTF-8">
     <title>Login | Sewa Alat Wedding</title>
 
-    <!-- FOTO ICON SAMA SEPERTI KODE ANDA -->
+    <!-- FOTO ICON dari folder fotoindex -->
     <link rel="icon" type="image/png" sizes="128x128"
-        href="https://raw.githubusercontent.com/your-image/1setwedding.webp">
-    <!-- GANTI link di atas dengan path foto icon Anda sendiri -->
+        href="fotoindex/1setwedding.webp">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -19,8 +18,8 @@
 
     <style>
         body {
-            /* GANTI DENGAN PATH FOTO BACKGROUND ANDA */
-            background: url('https://raw.githubusercontent.com/your-image/1setwedding.webp') no-repeat center center fixed;
+            /* FOTO BACKGROUND dari folder fotoindex */
+            background: url('fotoindex/1setwedding.webp') no-repeat center center fixed;
             background-size: cover;
             height: 100vh;
             display: flex;
@@ -71,10 +70,9 @@
 
     <div class="card login-card p-4 text-center">
 
-        <!-- FOTO LOGO SAMA SEPERTI KODE ANDA -->
-        <img src="https://raw.githubusercontent.com/your-image/1setwedding.webp"
+        <!-- FOTO LOGO dari folder fotoindex -->
+        <img src="fotoindex/1setwedding.webp"
             class="mx-auto mb-3" width="80" style="border-radius: 10px;">
-        <!-- GANTI link di atas dengan path foto logo Anda sendiri -->
 
         <h4 class="fw-bold mb-1">Selamat Datang Di Aplikasi Sewa Alat Wedding</h4>
         <p class="text-muted">Silakan login terlebih dahulu</p>
@@ -128,43 +126,40 @@
             }
         }
 
-        // ========== SIMULASI DATABASE USER (SESUAI DENGAN STRUKTUR PHP ANDA) ==========
-        // Data ini sama seperti yang ada di database Anda nantinya
+        // ========== SIMULASI DATABASE USER ==========
         const usersDatabase = [
             { id_user: 1, email: "admin@wedding.com", password: "admin123", nama: "Administrator", role: "admin" },
             { id_user: 2, email: "petugas@wedding.com", password: "petugas123", nama: "Petugas Wedding", role: "petugas" },
             { id_user: 3, email: "peminjam@wedding.com", password: "user123", nama: "Peminjam Wedding", role: "peminjam" }
         ];
 
-        // Fungsi untuk mencari user berdasarkan email (seperti SELECT * FROM users WHERE email = ?)
+        // Fungsi untuk mencari user berdasarkan email
         function findUserByEmail(email) {
             return usersDatabase.find(user => user.email.toLowerCase() === email.toLowerCase());
         }
 
-        // ========== PROSES LOGIN (MENGUBAH LOGIKA PHP KE JAVASCRIPT) ==========
+        // ========== PROSES LOGIN ==========
         document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Mencegah form submit (karena kita pakai JavaScript)
+            event.preventDefault();
 
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value.trim();
-            let error = '';
 
-            // Validasi tidak boleh kosong (sama seperti PHP: if ($email === '' || $password === ''))
+            // Validasi tidak boleh kosong
             if (email === '' || password === '') {
-                error = "Email dan password wajib diisi!";
                 Swal.fire({
                     icon: 'error',
                     title: 'Login Gagal',
-                    text: error,
+                    text: 'Email dan password wajib diisi!',
                     confirmButtonColor: '#2563eb'
                 });
                 return;
             }
 
-            // Cari user berdasarkan email (sama seperti query SELECT di PHP)
+            // Cari user berdasarkan email
             const user = findUserByEmail(email);
 
-            // Jika email tidak ditemukan (sama seperti $result->num_rows === 0)
+            // Jika email tidak ditemukan
             if (!user) {
                 Swal.fire({
                     icon: 'error',
@@ -172,13 +167,12 @@
                     text: 'Email Salah/Belum Terdaftar',
                     confirmButtonColor: '#2563eb'
                 }).then(() => {
-                    // Reset password seperti di PHP: window.location.href='login.php'
                     document.getElementById('password').value = '';
                 });
                 return;
             }
 
-            // Cek password (sama seperti if ($password === $user['password']))
+            // Cek password
             if (password !== user.password) {
                 Swal.fire({
                     icon: 'error',
@@ -186,44 +180,36 @@
                     text: 'Password Salah',
                     confirmButtonColor: '#2563eb'
                 }).then(() => {
-                    // Reset password seperti alert PHP lalu redirect ke login.php
                     document.getElementById('password').value = '';
                 });
                 return;
             }
 
             // ========== LOGIN BERHASIL ==========
-            // Simpan session (sama seperti $_SESSION di PHP)
+            // Simpan session
             sessionStorage.setItem('login', 'true');
             sessionStorage.setItem('id_user', user.id_user);
             sessionStorage.setItem('email', user.email);
             sessionStorage.setItem('nama', user.nama);
             sessionStorage.setItem('role', user.role);
-            sessionStorage.setItem('login_success', `Berhasil login sebagai ${user.role === 'admin' ? 'Admin' : (user.role === 'petugas' ? 'Petugas' : 'Peminjam')}!`);
 
-            // Redirect berdasarkan role (sama seperti switch case di PHP)
-            let redirectUrl = '';
             let successMessage = '';
 
             switch (user.role.toLowerCase()) {
                 case 'admin':
                     successMessage = "Berhasil login sebagai Admin!";
-                    redirectUrl = "../../pages/dashboard/index.php";
                     break;
                 case 'petugas':
                     successMessage = "Berhasil login sebagai Petugas!";
-                    redirectUrl = "../../pages/persetujuan_peminjaman/index.php";
                     break;
                 case 'peminjam':
                     successMessage = "Berhasil login sebagai Peminjam!";
-                    redirectUrl = "../../pages/melihat_daftar_alat/index.php";
                     break;
                 default:
                     successMessage = "Login berhasil!";
-                    redirectUrl = "../../pages/index.php";
             }
 
-            // Tampilkan pesan sukses dengan SweetAlert
+            // Tampilkan pesan sukses
             Swal.fire({
                 icon: 'success',
                 title: 'Login Berhasil',
@@ -232,16 +218,11 @@
                 timer: 1500,
                 showConfirmButton: true
             }).then(() => {
-                // Redirect ke halaman sesuai role
-                // window.location.href = redirectUrl;
-                
-                // Untuk demo, tampilkan dashboard di halaman yang sama
-                // (karena file HTML murni, kita simulasikan dashboard)
                 showDashboard(user);
             });
         });
 
-        // ========== FUNGSI MENAMPILKAN DASHBOARD (SIMULASI HALAMAN SETELAH LOGIN) ==========
+        // ========== FUNGSI MENAMPILKAN DASHBOARD ==========
         function showDashboard(user) {
             const card = document.querySelector('.login-card');
             
@@ -308,13 +289,11 @@
 
         // ========== FUNGSI LOGOUT ==========
         function logout() {
-            // Hapus semua session (sama seperti session_destroy() di PHP)
             sessionStorage.clear();
-            // Refresh halaman untuk kembali ke form login
             location.reload();
         }
 
-        // ========== TOMBOL REGISTER (BUAT SEKARANG) ==========
+        // ========== TOMBOL REGISTER ==========
         document.getElementById('registerLink').addEventListener('click', function(e) {
             e.preventDefault();
             Swal.fire({
@@ -327,7 +306,6 @@
         });
 
         // ========== CEK APAKAH SUDAH LOGIN SEBELUMNYA ==========
-        // Jika sudah login, langsung tampilkan dashboard (seperti session di PHP)
         const isLogin = sessionStorage.getItem('login');
         if (isLogin === 'true') {
             const savedUser = {
