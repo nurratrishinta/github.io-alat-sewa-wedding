@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <title>Login | Sewa Alat Wedding</title>
 
-    <!-- GANTI DENGAN PATH FOTO ANDA SENDIRI -->
+    <!-- FOTO ICON SAMA SEPERTI KODE ANDA -->
     <link rel="icon" type="image/png" sizes="128x128"
-        href="../../templates-admin/material-dashboard-2/assets/img/1setwedding.webp">
+        href="https://raw.githubusercontent.com/your-image/1setwedding.webp">
+    <!-- GANTI link di atas dengan path foto icon Anda sendiri -->
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -18,8 +19,8 @@
 
     <style>
         body {
-            /* GANTI DENGAN PATH FOTO BACKGROUND ANDA SENDIRI */
-            background: url('../../templates-admin/material-dashboard-2/assets/img/1setwedding.webp') no-repeat center center fixed;
+            /* GANTI DENGAN PATH FOTO BACKGROUND ANDA */
+            background: url('https://raw.githubusercontent.com/your-image/1setwedding.webp') no-repeat center center fixed;
             background-size: cover;
             height: 100vh;
             display: flex;
@@ -45,6 +46,8 @@
             border-radius: 8px;
             border: none;
             transition: 0.2s;
+            width: 100%;
+            padding: 8px 0;
         }
 
         .btn-login:hover {
@@ -54,6 +57,12 @@
 
         .input-group-text {
             cursor: pointer;
+            background-color: white;
+        }
+
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #2563eb;
         }
     </style>
 </head>
@@ -62,14 +71,15 @@
 
     <div class="card login-card p-4 text-center">
 
-        <!-- GANTI DENGAN PATH LOGO/FOTO ANDA SENDIRI -->
-        <img src="../../templates-admin/material-dashboard-2/assets/img/1setwedding.webp"
+        <!-- FOTO LOGO SAMA SEPERTI KODE ANDA -->
+        <img src="https://raw.githubusercontent.com/your-image/1setwedding.webp"
             class="mx-auto mb-3" width="80" style="border-radius: 10px;">
+        <!-- GANTI link di atas dengan path foto logo Anda sendiri -->
 
         <h4 class="fw-bold mb-1">Selamat Datang Di Aplikasi Sewa Alat Wedding</h4>
         <p class="text-muted">Silakan login terlebih dahulu</p>
 
-        <form method="POST" id="loginForm">
+        <form id="loginForm">
 
             <div class="mb-3 text-start">
                 <label class="form-label">Email</label>
@@ -90,11 +100,11 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-login w-100">Login</button>
+            <button type="submit" class="btn btn-login">Login</button>
 
             <div class="text-center mt-3">
                 <p class="mb-0 fw-bold">Belum punya akun?</p>
-                <a class="text-primary fw-bold" href="#" id="registerBtn">Buat Sekarang</a>
+                <a class="text-primary fw-bold" href="#" id="registerLink">Buat Sekarang</a>
             </div>
 
         </form>
@@ -102,14 +112,7 @@
     </div>
 
     <script>
-        // Data user untuk simulasi login (sesuai dengan database Anda nantinya)
-        const users = [
-            { email: "admin@wedding.com", password: "admin123", nama: "Admin Wedding", role: "admin", id_user: 1 },
-            { email: "petugas@wedding.com", password: "petugas123", nama: "Petugas", role: "petugas", id_user: 2 },
-            { email: "peminjam@wedding.com", password: "user123", nama: "Peminjam", role: "peminjam", id_user: 3 }
-        ];
-
-        // Toggle password visibility (fungsi mata)
+        // ========== FUNGSI TOGGLE PASSWORD (MATA) ==========
         function togglePassword() {
             var password = document.getElementById("password");
             var icon = document.getElementById("toggleIcon");
@@ -125,53 +128,84 @@
             }
         }
 
-        // Handle form login
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        // ========== SIMULASI DATABASE USER (SESUAI DENGAN STRUKTUR PHP ANDA) ==========
+        // Data ini sama seperti yang ada di database Anda nantinya
+        const usersDatabase = [
+            { id_user: 1, email: "admin@wedding.com", password: "admin123", nama: "Administrator", role: "admin" },
+            { id_user: 2, email: "petugas@wedding.com", password: "petugas123", nama: "Petugas Wedding", role: "petugas" },
+            { id_user: 3, email: "peminjam@wedding.com", password: "user123", nama: "Peminjam Wedding", role: "peminjam" }
+        ];
+
+        // Fungsi untuk mencari user berdasarkan email (seperti SELECT * FROM users WHERE email = ?)
+        function findUserByEmail(email) {
+            return usersDatabase.find(user => user.email.toLowerCase() === email.toLowerCase());
+        }
+
+        // ========== PROSES LOGIN (MENGUBAH LOGIKA PHP KE JAVASCRIPT) ==========
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Mencegah form submit (karena kita pakai JavaScript)
 
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value.trim();
+            let error = '';
 
-            // Validasi tidak boleh kosong
+            // Validasi tidak boleh kosong (sama seperti PHP: if ($email === '' || $password === ''))
             if (email === '' || password === '') {
+                error = "Email dan password wajib diisi!";
                 Swal.fire({
                     icon: 'error',
                     title: 'Login Gagal',
-                    text: 'Email dan password wajib diisi!',
+                    text: error,
                     confirmButtonColor: '#2563eb'
                 });
                 return;
             }
 
-            // Cari user berdasarkan email
-            const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+            // Cari user berdasarkan email (sama seperti query SELECT di PHP)
+            const user = findUserByEmail(email);
 
+            // Jika email tidak ditemukan (sama seperti $result->num_rows === 0)
             if (!user) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Login Gagal',
                     text: 'Email Salah/Belum Terdaftar',
                     confirmButtonColor: '#2563eb'
+                }).then(() => {
+                    // Reset password seperti di PHP: window.location.href='login.php'
+                    document.getElementById('password').value = '';
                 });
                 return;
             }
 
-            // Cek password
+            // Cek password (sama seperti if ($password === $user['password']))
             if (password !== user.password) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Login Gagal',
                     text: 'Password Salah',
                     confirmButtonColor: '#2563eb'
+                }).then(() => {
+                    // Reset password seperti alert PHP lalu redirect ke login.php
+                    document.getElementById('password').value = '';
                 });
                 return;
             }
 
-            // Login berhasil
-            let successMessage = "";
-            let redirectUrl = "";
+            // ========== LOGIN BERHASIL ==========
+            // Simpan session (sama seperti $_SESSION di PHP)
+            sessionStorage.setItem('login', 'true');
+            sessionStorage.setItem('id_user', user.id_user);
+            sessionStorage.setItem('email', user.email);
+            sessionStorage.setItem('nama', user.nama);
+            sessionStorage.setItem('role', user.role);
+            sessionStorage.setItem('login_success', `Berhasil login sebagai ${user.role === 'admin' ? 'Admin' : (user.role === 'petugas' ? 'Petugas' : 'Peminjam')}!`);
 
-            switch (user.role) {
+            // Redirect berdasarkan role (sama seperti switch case di PHP)
+            let redirectUrl = '';
+            let successMessage = '';
+
+            switch (user.role.toLowerCase()) {
                 case 'admin':
                     successMessage = "Berhasil login sebagai Admin!";
                     redirectUrl = "../../pages/dashboard/index.php";
@@ -189,6 +223,7 @@
                     redirectUrl = "../../pages/index.php";
             }
 
+            // Tampilkan pesan sukses dengan SweetAlert
             Swal.fire({
                 icon: 'success',
                 title: 'Login Berhasil',
@@ -197,90 +232,90 @@
                 timer: 1500,
                 showConfirmButton: true
             }).then(() => {
-                // Simpan session ke localStorage/sessionStorage
-                sessionStorage.setItem('user_login', JSON.stringify({
-                    login: true,
-                    id_user: user.id_user,
-                    email: user.email,
-                    nama: user.nama,
-                    role: user.role
-                }));
-                
                 // Redirect ke halaman sesuai role
                 // window.location.href = redirectUrl;
                 
                 // Untuk demo, tampilkan dashboard di halaman yang sama
+                // (karena file HTML murni, kita simulasikan dashboard)
                 showDashboard(user);
             });
         });
 
-        // Fungsi show dashboard (opsional untuk demo)
+        // ========== FUNGSI MENAMPILKAN DASHBOARD (SIMULASI HALAMAN SETELAH LOGIN) ==========
         function showDashboard(user) {
             const card = document.querySelector('.login-card');
             
-            let dashboardHtml = '';
+            let dashboardContent = '';
             
             if (user.role === 'admin') {
-                dashboardHtml = `
+                dashboardContent = `
                     <div style="text-align: center;">
                         <i class="bi bi-shield-lock-fill" style="font-size: 50px; color: #2563eb;"></i>
                         <h3 class="fw-bold mt-2">Dashboard Admin</h3>
                         <p class="text-muted">Selamat datang, ${user.nama}!</p>
                         <hr>
                         <div class="text-start">
-                            <p><i class="bi bi-check-circle-fill text-success me-2"></i> Kelola Data User</p>
-                            <p><i class="bi bi-check-circle-fill text-success me-2"></i> Kelola Alat Wedding</p>
-                            <p><i class="bi bi-check-circle-fill text-success me-2"></i> Laporan Transaksi</p>
-                            <p><i class="bi bi-check-circle-fill text-success me-2"></i> Pengaturan Sistem</p>
+                            <p><i class="bi bi-people-fill text-primary me-2"></i> <strong>Kelola Data User</strong></p>
+                            <p><i class="bi bi-box-seam-fill text-primary me-2"></i> <strong>Kelola Alat Wedding</strong></p>
+                            <p><i class="bi bi-file-text-fill text-primary me-2"></i> <strong>Laporan Transaksi</strong></p>
+                            <p><i class="bi bi-gear-fill text-primary me-2"></i> <strong>Pengaturan Sistem</strong></p>
                         </div>
-                        <button onclick="logout()" class="btn btn-danger w-100 mt-3">Logout</button>
+                        <button onclick="logout()" class="btn btn-danger w-100 mt-3 rounded-pill">
+                            <i class="bi bi-box-arrow-left me-2"></i>Logout
+                        </button>
                     </div>
                 `;
             } else if (user.role === 'petugas') {
-                dashboardHtml = `
+                dashboardContent = `
                     <div style="text-align: center;">
                         <i class="bi bi-person-badge-fill" style="font-size: 50px; color: #2563eb;"></i>
                         <h3 class="fw-bold mt-2">Dashboard Petugas</h3>
                         <p class="text-muted">Selamat datang, ${user.nama}!</p>
                         <hr>
                         <div class="text-start">
-                            <p><i class="bi bi-check-circle-fill text-success me-2"></i> Verifikasi Peminjaman</p>
-                            <p><i class="bi bi-check-circle-fill text-success me-2"></i> Update Status Alat</p>
-                            <p><i class="bi bi-check-circle-fill text-success me-2"></i> Jadwal Pengembalian</p>
-                            <p><i class="bi bi-check-circle-fill text-success me-2"></i> Monitoring Peminjaman</p>
+                            <p><i class="bi bi-check-circle-fill text-success me-2"></i> <strong>Verifikasi Peminjaman</strong></p>
+                            <p><i class="bi bi-arrow-repeat-fill text-success me-2"></i> <strong>Update Status Alat</strong></p>
+                            <p><i class="bi bi-calendar-check-fill text-success me-2"></i> <strong>Jadwal Pengembalian</strong></p>
+                            <p><i class="bi bi-graph-up-fill text-success me-2"></i> <strong>Monitoring Peminjaman</strong></p>
                         </div>
-                        <button onclick="logout()" class="btn btn-danger w-100 mt-3">Logout</button>
+                        <button onclick="logout()" class="btn btn-danger w-100 mt-3 rounded-pill">
+                            <i class="bi bi-box-arrow-left me-2"></i>Logout
+                        </button>
                     </div>
                 `;
             } else {
-                dashboardHtml = `
+                dashboardContent = `
                     <div style="text-align: center;">
                         <i class="bi bi-box-seam-fill" style="font-size: 50px; color: #2563eb;"></i>
                         <h3 class="fw-bold mt-2">Daftar Alat Wedding</h3>
                         <p class="text-muted">Selamat datang, ${user.nama}!</p>
                         <hr>
                         <div class="text-start">
-                            <p><i class="bi bi-check-circle-fill text-success me-2"></i> Lihat Katalog Alat</p>
-                            <p><i class="bi bi-check-circle-fill text-success me-2"></i> Ajukan Peminjaman</p>
-                            <p><i class="bi bi-check-circle-fill text-success me-2"></i> Riwayat Sewa</p>
-                            <p><i class="bi bi-check-circle-fill text-success me-2"></i> Pembayaran</p>
+                            <p><i class="bi bi-search-heart-fill text-danger me-2"></i> <strong>Lihat Katalog Alat</strong></p>
+                            <p><i class="bi bi-pencil-square-fill text-danger me-2"></i> <strong>Ajukan Peminjaman</strong></p>
+                            <p><i class="bi bi-clock-history-fill text-danger me-2"></i> <strong>Riwayat Sewa</strong></p>
+                            <p><i class="bi bi-credit-card-fill text-danger me-2"></i> <strong>Pembayaran</strong></p>
                         </div>
-                        <button onclick="logout()" class="btn btn-danger w-100 mt-3">Logout</button>
+                        <button onclick="logout()" class="btn btn-danger w-100 mt-3 rounded-pill">
+                            <i class="bi bi-box-arrow-left me-2"></i>Logout
+                        </button>
                     </div>
                 `;
             }
             
-            card.innerHTML = dashboardHtml;
+            card.innerHTML = dashboardContent;
         }
 
-        // Fungsi logout
+        // ========== FUNGSI LOGOUT ==========
         function logout() {
-            sessionStorage.removeItem('user_login');
+            // Hapus semua session (sama seperti session_destroy() di PHP)
+            sessionStorage.clear();
+            // Refresh halaman untuk kembali ke form login
             location.reload();
         }
 
-        // Tombol register
-        document.getElementById('registerBtn').addEventListener('click', function(e) {
+        // ========== TOMBOL REGISTER (BUAT SEKARANG) ==========
+        document.getElementById('registerLink').addEventListener('click', function(e) {
             e.preventDefault();
             Swal.fire({
                 title: 'Buat Akun Baru',
@@ -291,13 +326,17 @@
             });
         });
 
-        // Cek apakah sudah login sebelumnya
-        const savedSession = sessionStorage.getItem('user_login');
-        if (savedSession) {
-            const user = JSON.parse(savedSession);
-            if (user.login) {
-                showDashboard(user);
-            }
+        // ========== CEK APAKAH SUDAH LOGIN SEBELUMNYA ==========
+        // Jika sudah login, langsung tampilkan dashboard (seperti session di PHP)
+        const isLogin = sessionStorage.getItem('login');
+        if (isLogin === 'true') {
+            const savedUser = {
+                id_user: sessionStorage.getItem('id_user'),
+                email: sessionStorage.getItem('email'),
+                nama: sessionStorage.getItem('nama'),
+                role: sessionStorage.getItem('role')
+            };
+            showDashboard(savedUser);
         }
     </script>
 
